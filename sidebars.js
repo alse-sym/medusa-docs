@@ -56,6 +56,7 @@ const sidebars = {
       collapsed: false,
       items: [
         "api-reference-patterns",
+        "customer-notes-api",
         "loyalty-points-api",
         "webhooks-events",
         "sdk-usage",
