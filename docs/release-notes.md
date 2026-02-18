@@ -154,7 +154,34 @@ rather than leaving it with placeholder text.
 
 | Version | Date | Highlights | Docs Snapshot |
 |---|---|---|---|
-| v1.0.0 | 2024-01-01 | Initial release | v1.0.0 docs (use version dropdown) |
+| v1.1.0 | 2026-02-18 | Loyalty Points API, include_history query support | v1.1.0 (use version dropdown) |
+| v1.0.0 | 2026-02-18 | Initial documentation baseline | v1.0.0 (use version dropdown) |
+
+---
+
+<!-- RELEASE_ENTRY_START -->
+## v1.1.0 - 2026-02-18
+
+### Highlights
+- New Loyalty Points adjustment endpoint (`POST /admin/loyalty/points/adjust`)
+- Added `include_history=true` query parameter to return last 20 adjustment records
+
+### Enhancements
+- Full API documentation for loyalty points endpoint with request/response examples
+- Updated sidebar navigation with new API Reference Patterns entry
+
+### Upgrade Notes
+No breaking changes. The new endpoint is additive and does not affect existing API contracts.
+<!-- RELEASE_ENTRY_END -->
+
+<!-- RELEASE_ENTRY_START -->
+## v1.0.0 - 2026-02-18
+
+### Highlights
+- Initial documentation baseline covering installation, quickstart, core concepts, and full API fundamentals
+- Versioned docs infrastructure with Docusaurus and GitHub Pages deployment
+- Automated docs sync and release workflows powered by gh-aw
+<!-- RELEASE_ENTRY_END -->
 
 ---
 
