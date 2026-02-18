@@ -1,0 +1,61 @@
+name: Cut Docs Version
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to snapshot (for example 2.13.1)"
+        required: true
+        type: string
+  repository_dispatch:
+    types: [medusa-release]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  version-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Resolve version
+      # repository_dispatch payload should send client_payload.version
+        run: |
+          VERSION_INPUT="${{ github.event.inputs.version }}"
+          VERSION_PAYLOAD="${{ github.event.client_payload.version }}"
+          VERSION="$VERSION_INPUT"
+          if [ -z "$VERSION" ]; then
+            VERSION="$VERSION_PAYLOAD"
+          fi
+          if [ -z "$VERSION" ]; then
+            echo "No version provided."
+            exit 1
+          fi
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create docs version snapshot
+        run: npm run version:docs -- "$VERSION"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "chore(docs): cut version ${{ env.VERSION }}"
+          title: "chore(docs): cut version ${{ env.VERSION }}"
+          body: "Automated docs version cut for `${{ env.VERSION }}`."
+          branch: "chore/docs-version-${{ env.VERSION }}"
+          delete-branch: true
+          labels: |
+            documentation
+            automation
